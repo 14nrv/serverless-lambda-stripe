@@ -1,0 +1,26 @@
+# Serverless.yml is the configuration the CLI
+# uses to deploy your code to your provider of choice
+service: buefy-shop-serverless
+
+# Configuration variables
+custom:
+  secrets: ${file(secrets.json)}
+
+# The `provider` block defines where your service will be deployed
+provider:
+  name: aws
+  runtime: nodejs6.10
+  region: eu-west-1
+  environment:
+    STRIPE_SECRET_KEY: ${self:custom.secrets.stripeSecretKey}
+
+# The `functions` block defines what code to deploy
+functions:
+  createCharge:
+    handler: functions/createCharge.handler
+    # The `events` block defines how to trigger the handler.createCharge code
+    events:
+      - http:
+          path: charges
+          method: post
+          cors: true
