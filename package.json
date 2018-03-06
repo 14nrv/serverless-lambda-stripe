@@ -1,0 +1,15 @@
+{
+  "name": "serverless-lambda-stripe",
+  "version": "1.0.0",
+  "description": "lambda for stripe",
+  "main": "handler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "serverless deploy"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "stripe": "^5.5.0"
+  }
+}
