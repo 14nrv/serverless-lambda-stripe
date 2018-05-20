@@ -25,7 +25,7 @@ provider:
 # The `functions` block defines what code to deploy
 functions:
   createCharge:
-    handler: functions/createCharge.handler
+    handler: functions/createCharge/createCharge.handler
     # The `events` block defines how to trigger the handler.createCharge code
     events:
       - http:
