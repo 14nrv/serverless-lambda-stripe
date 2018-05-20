@@ -13,4 +13,6 @@ jspm_packages
 
 secrets.json
 
+coverage
+
 .vscode

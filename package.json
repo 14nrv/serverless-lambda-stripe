@@ -5,7 +5,9 @@
   "main": "handler.js",
   "scripts": {
     "deploy": "npx sls deploy",
-    "dev": "npx sls offline start"
+    "dev": "npx sls offline start",
+    "test": "NODE_ENV=test jest",
+    "test:tdd": "NODE_ENV=test yarn test --watchAll --coverage"
   },
   "author": "14nrv <contact@styro.fr>",
   "license": "MIT",
@@ -16,6 +18,7 @@
   "dependencies": {
     "babel-runtime": "^6.26.0",
     "is_js": "^0.9.0",
+    "jest": "^22.4.4",
     "source-map-support": "^0.4.18",
     "stripe": "^5.5.0"
   },

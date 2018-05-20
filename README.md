@@ -9,6 +9,12 @@ $ yarn install
 
 ## Usage
 
+To run unit tests on your local
+
+``` bash
+$ yarn test
+```
+
 To run a function on your local
 
 ``` bash
