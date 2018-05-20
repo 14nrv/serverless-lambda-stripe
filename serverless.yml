@@ -11,8 +11,9 @@ plugins:
 custom:
   secrets: ${file(secrets.json)}
   webpack:
-    webpackConfig: ./webpack.config.js
     includeModules: true
+    packager: 'yarn'
+    webpackConfig: ./webpack.config.js
 
 # The `provider` block defines where your service will be deployed
 provider:
