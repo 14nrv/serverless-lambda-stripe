@@ -7,9 +7,14 @@
     "deploy": "npx sls deploy",
     "dev": "npx sls offline start",
     "lint": "eslint --ext .js --ignore-path .gitignore .",
+    "lint-staged": "lint-staged",
     "test": "NODE_ENV=test jest",
     "test:tdd": "NODE_ENV=test yarn test --watchAll --coverage",
     "test:coverage": "NODE_ENV=test yarn test --coverage"
+  },
+  "pre-commit": "lint-staged, test",
+  "lint-staged": {
+    "*.js": "eslint --ext .js"
   },
   "author": "14nrv <contact@styro.fr>",
   "license": "MIT",
@@ -41,6 +46,8 @@
     "eslint-plugin-node": "^6.0.1",
     "eslint-plugin-promise": "^3.7.0",
     "eslint-plugin-standard": "^3.1.0",
+    "lint-staged": "^7.1.1",
+    "pre-commit": "^1.2.2",
     "serverless-offline": "^3.20.3",
     "serverless-webpack": "^5.1.0",
     "webpack": "^4.2.0",
