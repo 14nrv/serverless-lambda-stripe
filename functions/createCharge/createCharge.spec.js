@@ -5,7 +5,7 @@ jest
     customers: {
       create: jest.fn(({ source }) =>
         source === 'badToken'
-          ? Promise.reject({ message: 'error msg' })
+          ? Promise.reject(new Error('error msg'))
           : Promise.resolve({ customer: { id: '' } })
       )
     },
@@ -25,6 +25,7 @@ const setRequest = (stripeEmail, stripeToken, stripeAmt) => ({
 
 describe('createCharge', () => {
   const expect400 = (error, { statusCode }) => {
+    expect(error).toBeFalsy()
     expect(statusCode).toEqual(400)
   }
 
@@ -72,6 +73,7 @@ describe('createCharge', () => {
     it('fail if bad token', async () => {
       const request = setRequest(VALID_EMAIL, BAD_TOKEN, VALID_AMOUNT)
       const cb = (error, { statusCode, body }) => {
+        expect(error).toBeFalsy()
         expect(statusCode).toEqual(400)
         expect(JSON.parse(body).error).toBeTruthy()
       }
@@ -83,6 +85,7 @@ describe('createCharge', () => {
   it('have allow origin header', async () => {
     const request = setRequest('', '', '')
     const cb = (error, { headers }) => {
+      expect(error).toBeFalsy()
       expect(headers['Access-Control-Allow-Origin']).toBeTruthy()
     }
 
@@ -92,7 +95,8 @@ describe('createCharge', () => {
   it('success with a message', async () => {
     const request = setRequest(VALID_EMAIL, VALID_TOKEN, VALID_AMOUNT)
 
-    const cb = (error, { statusCode, body}) => {
+    const cb = (error, { statusCode, body }) => {
+      expect(error).toBeFalsy()
       expect(statusCode).toEqual(200)
       expect(typeof body).toBe('string')
       expect(JSON.parse(body).message).toBeTruthy()

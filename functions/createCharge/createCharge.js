@@ -35,7 +35,7 @@ export const handler = async (req, context, cb) => {
 
   const shouldCreateCharges = isRequestDataValid({ email, token, amount })
 
-  if ( shouldCreateCharges ) {
+  if (shouldCreateCharges) {
     try {
       const customer = await stripe.customers.create({
         email,
@@ -53,7 +53,7 @@ export const handler = async (req, context, cb) => {
         200,
         { message: 'Charge processed succesfully!' }
       )
-    } catch({message}) {
+    } catch ({message}) {
       response = setResponse400(message)
     }
   }
