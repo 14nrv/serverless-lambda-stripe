@@ -4,7 +4,7 @@
   "description": "lambda for stripe",
   "main": "functions/createCharge/index.js",
   "scripts": {
-    "deploy": "npx sls deploy",
+    "deploy": "sls deploy",
     "dev": "npx sls offline start",
     "lint": "eslint --ext .js --ignore-path .gitignore .",
     "lint-staged": "lint-staged",

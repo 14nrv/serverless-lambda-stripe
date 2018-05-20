@@ -46,7 +46,10 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Deploy if tests pass and branch is Master
+          name: Install serverless globally with yarn
+          command: yarn global add serverless
+      - run:
+          name: Deploy if tests pass and branch is Master or Dev
           command: yarn deploy
 
 workflows:
