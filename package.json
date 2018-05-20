@@ -25,7 +25,6 @@
   "dependencies": {
     "babel-runtime": "^6.26.0",
     "is_js": "^0.9.0",
-    "jest": "^22.4.4",
     "source-map-support": "^0.4.18",
     "stripe": "^5.5.0"
   },
@@ -39,6 +38,7 @@
     "babel-preset-stage-3": "^6.24.1",
     "eslint": "^4.19.1",
     "eslint-config-standard": "^11.0.0",
+    "eslint-junit": "^1.0.1",
     "eslint-loader": "^2.0.0",
     "eslint-plugin-html": "^4.0.3",
     "eslint-plugin-import": "^2.12.0",
@@ -46,11 +46,19 @@
     "eslint-plugin-node": "^6.0.1",
     "eslint-plugin-promise": "^3.7.0",
     "eslint-plugin-standard": "^3.1.0",
+    "jest": "^22.4.4",
+    "jest-junit": "^4.0.0",
     "lint-staged": "^7.1.1",
     "pre-commit": "^1.2.2",
     "serverless-offline": "^3.20.3",
     "serverless-webpack": "^5.1.0",
     "webpack": "^4.2.0",
     "webpack-node-externals": "^1.6.0"
+  },
+  "jest-junit": {
+    "output": "coverage/junit/js-test-results.xml"
+  },
+  "eslint-junit": {
+    "output": "coverage/junit/js-eslint-results.xml"
   }
 }

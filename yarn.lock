@@ -2007,6 +2007,14 @@ eslint-import-resolver-node@^0.3.1:
     debug "^2.6.9"
     resolve "^1.5.0"
 
+eslint-junit@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/eslint-junit/-/eslint-junit-1.0.1.tgz#cca1f5b1812ba553bd424871008555c26a00edea"
+  dependencies:
+    mkdirp "^0.5.1"
+    strip-ansi "^4.0.0"
+    xml "^1.0.1"
+
 eslint-loader@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/eslint-loader/-/eslint-loader-2.0.0.tgz#d136619b5c684e36531ffc28c60a56e404608f5d"
@@ -3371,6 +3379,14 @@ jest-jasmine2@^22.4.4:
     jest-snapshot "^22.4.0"
     jest-util "^22.4.1"
     source-map-support "^0.5.0"
+
+jest-junit@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/jest-junit/-/jest-junit-4.0.0.tgz#6af04d43940d7e81dc7d37ec1b80c97551d91e80"
+  dependencies:
+    mkdirp "^0.5.1"
+    strip-ansi "^4.0.0"
+    xml "^1.0.1"
 
 jest-leak-detector@^22.4.0:
   version "22.4.3"
@@ -6066,6 +6082,10 @@ ws@^4.0.0:
 xml-name-validator@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/xml-name-validator/-/xml-name-validator-3.0.0.tgz#6ae73e06de4d8c6e47f9fb181f78d648ad457c6a"
+
+xml@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/xml/-/xml-1.0.1.tgz#78ba72020029c5bc87b8a81a3cfcd74b4a2fc1e5"
 
 xtend@^4.0.0, xtend@^4.0.1, xtend@~4.0.1:
   version "4.0.1"
