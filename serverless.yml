@@ -2,6 +2,12 @@
 # uses to deploy your code to your provider of choice
 service: buefy-shop-serverless
 
+# exclude the code coverage files and circle ci files
+package:
+  exclude:
+  - coverage/**
+  - .circleci/**
+
 # Use the serverless-webpack plugin to transpile ES6
 plugins:
   - serverless-webpack
