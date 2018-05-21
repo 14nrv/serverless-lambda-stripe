@@ -10,18 +10,18 @@ jobs:
 
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "package.json" }}
+          - v1-dependencies-{{ checksum "yarn.lock" }}
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
       - run:
           name: Install Node dependencies
-          command: npm install
+          command: yarn install
 
       - save_cache:
           paths:
             - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+          key: v1-dependencies-{{ checksum "yarn.lock" }}
 
       - run:
           name: Setup Code Climate test reporter
@@ -31,7 +31,7 @@ jobs:
 
       - run:
           name: JavaScript Linter
-          command: npm run lint -f ./node_modules/eslint-junit/index.js
+          command: yarn lint -f ./node_modules/eslint-junit/index.js
           environment:
             ESLINT_JUNIT_OUTPUT: "coverage/junit/js-eslint-results.xml"
 
@@ -39,7 +39,7 @@ jobs:
           name: Unit tests with coverage
           command: |
             ./cc-test-reporter before-build
-            npm run test --coverage --ci --testResultsProcessor="./node_modules/jest-junit"
+            yarn test --coverage --ci --testResultsProcessor="./node_modules/jest-junit"
             ./cc-test-reporter after-build --exit-code $?
           environment:
             JEST_JUNIT_OUTPUT: "coverage/junit/js-test-results.xml"
@@ -57,8 +57,11 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Install serverless globally
+          command: yarn global add serverless && yarn install
+      - run:
           name: Deploy if tests pass and branch is Master or Dev
-          command: npm run deploy
+          command: yarn deploy
 
 workflows:
   version: 2
@@ -72,4 +75,4 @@ workflows:
             branches:
               only:
                 - master
-                - dev
+                - /^dev.*/
