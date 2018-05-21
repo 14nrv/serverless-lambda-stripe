@@ -7,35 +7,46 @@ jobs:
     working_directory: ~/repo
     steps:
       - checkout
+
       - restore_cache:
-          key: yarn-{{ checksum "yarn.lock" }}
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+
       - run:
-          name: Install all dependencies
-          command: yarn install
+          name: Install Node dependencies
+          command: npm install
+
       - save_cache:
-          key: yarn-{{ checksum "yarn.lock" }}
           paths:
-            - "node_modules"
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
       - run:
           name: Setup Code Climate test reporter
           command: |
             curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
             chmod +x ./cc-test-reporter
+
       - run:
           name: JavaScript Linter
-          command: yarn lint -f ./node_modules/eslint-junit/index.js
+          command: npm run lint -f ./node_modules/eslint-junit/index.js
           environment:
             ESLINT_JUNIT_OUTPUT: "coverage/junit/js-eslint-results.xml"
+
       - run:
           name: Unit tests with coverage
           command: |
             ./cc-test-reporter before-build
-            yarn test --coverage --ci --testResultsProcessor="./node_modules/jest-junit"
+            npm run test --coverage --ci --testResultsProcessor="./node_modules/jest-junit"
             ./cc-test-reporter after-build --exit-code $?
           environment:
             JEST_JUNIT_OUTPUT: "coverage/junit/js-test-results.xml"
+
       - store_test_results:
           path: coverage/junit
+
       - store_artifacts:
           path: coverage/junit
 
@@ -46,11 +57,8 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install serverless globally with yarn
-          command: yarn global add serverless
-      - run:
           name: Deploy if tests pass and branch is Master or Dev
-          command: yarn deploy
+          command: npm run deploy
 
 workflows:
   version: 2

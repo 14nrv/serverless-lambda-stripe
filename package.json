@@ -4,7 +4,7 @@
   "description": "lambda for stripe",
   "main": "functions/createCharge/index.js",
   "scripts": {
-    "deploy": "sls deploy",
+    "deploy": "npx sls deploy",
     "dev": "npx sls offline start",
     "lint": "eslint --ext .js --ignore-path .gitignore .",
     "lint-staged": "lint-staged",
@@ -50,6 +50,7 @@
     "jest-junit": "^4.0.0",
     "lint-staged": "^7.1.1",
     "pre-commit": "^1.2.2",
+    "serverless": "^1.27.2",
     "serverless-offline": "^3.20.3",
     "serverless-webpack": "^5.1.0",
     "webpack": "^4.2.0",
