@@ -10,7 +10,7 @@ jobs:
 
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "package.json" }}
+          - v1-dependencies-{{ checksum "yarn.lock" }}
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
@@ -21,7 +21,7 @@ jobs:
       - save_cache:
           paths:
             - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+          key: v1-dependencies-{{ checksum "yarn.lock" }}
 
       - run:
           name: Setup Code Climate test reporter
@@ -58,10 +58,10 @@ jobs:
       - checkout
       - run:
           name: Install serverless globally
-          command: sudo npm install --global serverless && npm install
+          command: yarn global add serverless && yarn install
       - run:
           name: Deploy if tests pass and branch is Master or Dev
-          command: npm run deploy
+          command: yarn deploy
 
 workflows:
   version: 2
