@@ -6,10 +6,14 @@ service: buefy-shop-serverless
 plugins:
   - serverless-webpack
   - serverless-offline
+  - serverless-prune-plugin
 
 # Configuration variables
 custom:
   secrets: ${file(secrets.json)}
+  prune:
+    automatic: true
+    number: 3
   webpack:
     includeModules: true
 
