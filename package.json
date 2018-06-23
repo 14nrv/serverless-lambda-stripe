@@ -2,14 +2,65 @@
   "name": "serverless-lambda-stripe",
   "version": "1.0.0",
   "description": "lambda for stripe",
-  "main": "handler.js",
+  "main": "functions/createCharge/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "serverless deploy"
+    "deploy": "serverless deploy",
+    "dev": "npx sls offline start",
+    "lint": "eslint --ext .js --ignore-path .gitignore .",
+    "lint-staged": "lint-staged",
+    "test": "NODE_ENV=test jest",
+    "test:tdd": "NODE_ENV=test yarn test --watchAll --coverage",
+    "test:coverage": "NODE_ENV=test yarn test --coverage"
   },
-  "author": "",
+  "pre-commit": "lint-staged, test",
+  "lint-staged": {
+    "*.js": "eslint --ext .js"
+  },
+  "author": "14nrv <contact@styro.fr>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/14nrv/serverless-lambda-stripe.git"
+  },
   "dependencies": {
+    "babel-runtime": "^6.26.0",
+    "is_js": "^0.9.0",
+    "source-map-support": "^0.4.18",
     "stripe": "^5.5.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.2.3",
+    "babel-loader": "^7.1.4",
+    "babel-plugin-source-map-support": "^1.0.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-stage-3": "^6.24.1",
+    "eslint": "^4.19.1",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-junit": "^1.0.1",
+    "eslint-loader": "^2.0.0",
+    "eslint-plugin-html": "^4.0.3",
+    "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-jest": "^21.15.1",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.7.0",
+    "eslint-plugin-standard": "^3.1.0",
+    "jest": "^22.4.4",
+    "jest-junit": "^4.0.0",
+    "lint-staged": "^7.1.1",
+    "pre-commit": "^1.2.2",
+    "serverless": "^1.27.2",
+    "serverless-offline": "^3.20.3",
+    "serverless-prune-plugin": "^1.3.0",
+    "serverless-webpack": "^5.1.0",
+    "webpack": "^4.2.0",
+    "webpack-node-externals": "^1.6.0"
+  },
+  "jest-junit": {
+    "output": "coverage/junit/js-test-results.xml"
+  },
+  "eslint-junit": {
+    "output": "coverage/junit/js-eslint-results.xml"
   }
 }

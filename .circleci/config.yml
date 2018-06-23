@@ -1,0 +1,78 @@
+version: 2
+
+jobs:
+  test:
+    docker:
+      - image: circleci/node:8
+    working_directory: ~/repo
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "yarn.lock" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+
+      - run:
+          name: Install Node dependencies
+          command: yarn install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "yarn.lock" }}
+
+      - run:
+          name: Setup Code Climate test reporter
+          command: |
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
+
+      - run:
+          name: JavaScript Linter
+          command: yarn lint -f ./node_modules/eslint-junit/index.js
+          environment:
+            ESLINT_JUNIT_OUTPUT: "coverage/junit/js-eslint-results.xml"
+
+      - run:
+          name: Unit tests with coverage
+          command: |
+            ./cc-test-reporter before-build
+            yarn test --coverage --ci --testResultsProcessor="./node_modules/jest-junit"
+            ./cc-test-reporter after-build --exit-code $?
+          environment:
+            JEST_JUNIT_OUTPUT: "coverage/junit/js-test-results.xml"
+
+      - store_test_results:
+          path: coverage/junit
+
+      - store_artifacts:
+          path: coverage/junit
+
+  deploy:
+    docker:
+      - image: circleci/node:8
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run:
+          name: Install serverless globally
+          command: yarn global add serverless && yarn install
+      - run:
+          name: Deploy if tests pass and branch is Master or Dev
+          command: yarn deploy
+
+workflows:
+  version: 2
+  deploy:
+    jobs:
+      - test
+      - deploy:
+          requires:
+            - test
+          filters:
+            branches:
+              only:
+                - master
+                - /^dev.*/

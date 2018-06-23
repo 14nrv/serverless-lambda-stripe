@@ -1,8 +1,18 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+
 # package directories
 node_modules
 jspm_packages
 
 # Serverless directories
 .serverless
+.webpack
 
 secrets.json
+
+coverage
+
+.vscode
