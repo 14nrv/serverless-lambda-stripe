@@ -22,38 +22,46 @@ const isRequestDataValid = ({ email, token, amount }) => {
   return !!token && isEmailValid && isAmountValid
 }
 
-export const handler = async (req, context, cb) => {
-  console.log('createCharge with body: ', req.body)
+export const handler = async (req, _context, cb) => {
+  // eslint-disable-next-line no-console
+  console.log('trying to create charge with body: ', req.body)
 
   let response = setResponse400()
 
   try {
-    var { stripeEmail: email, stripeToken: token, stripeAmt: amount } = JSON.parse(req.body)
+    // eslint-disable-next-line no-var
+    var {
+      userData,
+      stripeToken: token,
+      stripeAmt: amount
+    } = JSON.parse(req.body)
   } catch (err) {
     return cb(null, response)
   }
 
+  const { email, shipping } = userData
   const shouldCreateCharges = isRequestDataValid({ email, token, amount })
 
   if (shouldCreateCharges) {
     try {
-      const customer = await stripe.customers.create({
-        email,
+      const { id: customer } = await stripe.customers.create({
+        ...userData,
         source: token
       })
 
       await stripe.charges.create({
         amount,
-        description: 'Sample Charge',
         currency: 'usd',
-        customer: customer.id
+        customer,
+        description: 'Sample Charge',
+        shipping
       })
 
       response = setResponse(
         200,
         { message: 'Charge processed succesfully!' }
       )
-    } catch ({message}) {
+    } catch ({ message }) {
       response = setResponse400(message)
     }
   }
