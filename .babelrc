@@ -1,15 +1,12 @@
 {
-  "plugins": [
-    "source-map-support",
-    "transform-runtime"
-  ],
   "presets": [
     [
-      "env",
+      "@babel/preset-env",
       {
-        "node": "12.18.2"
+        "targets": {
+          "node": "12.18.2"
+        }
       }
-    ],
-    "stage-3"
+    ]
   ]
 }
