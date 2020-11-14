@@ -26,7 +26,7 @@ custom:
 # The `provider` block defines where your service will be deployed
 provider:
   name: aws
-  runtime: nodejs8.10
+  runtime: nodejs12.x
   region: eu-west-1
   environment:
     STRIPE_SECRET_KEY: ${self:custom.secrets.stripeSecretKey}

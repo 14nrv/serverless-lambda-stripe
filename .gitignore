@@ -16,3 +16,5 @@ secrets.json
 coverage
 
 .vscode
+.history
+**/.DS_Store

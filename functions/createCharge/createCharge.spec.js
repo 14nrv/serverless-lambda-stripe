@@ -19,8 +19,8 @@ const VALID_TOKEN = 'token'
 const BAD_TOKEN = 'badToken'
 const VALID_AMOUNT = 100
 
-const setRequest = (stripeEmail, stripeToken, stripeAmt) => ({
-  body: JSON.stringify({ stripeEmail, stripeToken, stripeAmt })
+const setRequest = (stripeToken, stripeAmt, userData = {}) => ({
+  body: JSON.stringify({ userData, stripeToken, stripeAmt })
 })
 
 describe('createCharge', () => {
@@ -36,42 +36,42 @@ describe('createCharge', () => {
     })
 
     it('fail without email', async () => {
-      const request = setRequest(undefined, VALID_TOKEN, VALID_AMOUNT)
+      const request = setRequest(VALID_TOKEN, VALID_AMOUNT, undefined)
       await createCharge(request, null, expect400)
     })
 
     it('fail with bad email', async () => {
-      const request = setRequest('plop', VALID_TOKEN, VALID_AMOUNT)
+      const request = setRequest(VALID_TOKEN, VALID_AMOUNT, 'plop')
       await createCharge(request, null, expect400)
     })
 
     it('fail without token', async () => {
-      const request = setRequest(VALID_EMAIL, undefined, VALID_AMOUNT)
+      const request = setRequest(undefined, VALID_AMOUNT, { email: VALID_EMAIL })
       await createCharge(request, null, expect400)
     })
 
     it('fail without amount', async () => {
-      const request = setRequest(VALID_EMAIL, VALID_TOKEN, undefined)
+      const request = setRequest(VALID_TOKEN, undefined, { email: VALID_EMAIL })
       await createCharge(request, null, expect400)
     })
 
     it('fail with amount under 100', async () => {
-      const request = setRequest(VALID_EMAIL, VALID_TOKEN, 99)
+      const request = setRequest(VALID_TOKEN, 99, { email: VALID_EMAIL })
       await createCharge(request, null, expect400)
     })
 
     it('fail if amount is not an integer', async () => {
-      const request = setRequest(VALID_EMAIL, VALID_TOKEN, 100.5)
+      const request = setRequest(VALID_TOKEN, 100.5, { email: VALID_EMAIL })
       await createCharge(request, null, expect400)
     })
 
     it('fail if amount is not a number', async () => {
-      const request = setRequest(VALID_EMAIL, VALID_TOKEN, 'amount')
+      const request = setRequest(VALID_TOKEN, 'amount', { email: VALID_EMAIL })
       await createCharge(request, null, expect400)
     })
 
     it('fail if bad token', async () => {
-      const request = setRequest(VALID_EMAIL, BAD_TOKEN, VALID_AMOUNT)
+      const request = setRequest(BAD_TOKEN, VALID_AMOUNT, { email: VALID_EMAIL })
       const cb = (error, { statusCode, body }) => {
         expect(error).toBeFalsy()
         expect(statusCode).toEqual(400)
@@ -93,7 +93,7 @@ describe('createCharge', () => {
   })
 
   it('success with a message', async () => {
-    const request = setRequest(VALID_EMAIL, VALID_TOKEN, VALID_AMOUNT)
+    const request = setRequest(VALID_TOKEN, VALID_AMOUNT, { email: VALID_EMAIL })
 
     const cb = (error, { statusCode, body }) => {
       expect(error).toBeFalsy()
